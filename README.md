@@ -11,12 +11,12 @@ We developed the frontend using a straightforward JavaFX interface, while the AP
 
 ### Clone the project repository
 
-To use our application first you need to clone this whole project from our https://github.com/wanggz1000/FuelStation
+To use our application first you need to clone this whole project from our https://github.com/wanggz1000/PostalProject-Wang.git
 You can either do this with for example IntelliJ's built-in tool or run this command in your preferred command line interpreter within the directory you wish to save the project in:
 
 ```bash
 cd "path/to/your/desired/folder/"
-git clone "https://github.com/wanggz1000/PostalProject.git"
+git clone "https://github.com/wanggz1000/PostalProject-Wang.git"
 ```
 
 ### Start application modules and services
@@ -32,10 +32,7 @@ Then follow these steps:
 3. Then run these parts of the application in this order:  
    Step 1: Java FX UI  
    Step 2: SpringBoot API  
-   Step 3: DataCollectionDispatcher   
-   Step 4: StationDataCollector   
-   Step 5: DataCollectionReceiver   
-   Step 6: PDFGenerator   
+   Step 3: PackageService      
 
 After you have started all these you can now use the application.
 
