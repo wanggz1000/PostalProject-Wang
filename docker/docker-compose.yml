@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: postaldb
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postaldb
+    ports:
+      - "30002:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  queue:
+    image: rabbitmq:management-alpine
+    ports:
+      - '30003:5672'
+      - '30083:15672'

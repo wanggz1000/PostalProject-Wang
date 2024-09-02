@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="365.0" prefWidth="468.0" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.fh.javafx.PostController">
+    <children>
+        <Label prefHeight="17.0" prefWidth="103.0" text="Postal Service" />
+        <Separator prefHeight="0.0" prefWidth="412.0" />
+        <HBox spacing="20">
+            <children>
+                <VBox prefHeight="336.0" prefWidth="155.0" spacing="10" HBox.hgrow="ALWAYS">
+                    <children>
+                        <TextField fx:id="nameFieldLetter" promptText="Name" />
+                        <TextField fx:id="countryField" promptText="Country" />
+                        <Button onAction="#sendLetter" prefHeight="26.0" prefWidth="147.0" style="-fx-background-color: blue; -fx-text-fill: white;" text="Send Letter" />
+                        <Separator />
+                  <Separator prefHeight="0.0" prefWidth="148.0" />
+                        <TextField fx:id="nameFieldPackage" promptText="Name" />
+                        <TextField fx:id="weightField" prefHeight="26.0" prefWidth="121.0" promptText="Weight" />
+                        <Button onAction="#sendPackage" prefHeight="26.0" prefWidth="148.0" style="-fx-background-color: blue; -fx-text-fill: white;" text="Send Package" />
+                    </children>
+                </VBox>
+
+                <Separator orientation="VERTICAL" />
+
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <HBox maxWidth="300" prefHeight="300.0" prefWidth="281.0">
+
+                    <children>
+                        <Separator />
+                        <VBox fx:id="box" minHeight="300" style="-fx-border-color: black;">
+                        <Label text="Status" />
+                                <TextArea fx:id="statusLabel" editable="false" maxWidth="Infinity" wrapText="true" VBox.vgrow="ALWAYS" />
+
+                        </VBox>
+                    </children>
+                    </HBox>
+                    <Button onAction="#refreshStatus" prefHeight="26.0" prefWidth="278.0" style="-fx-background-color: blue; -fx-text-fill: white;" text="Refresh" />
+
+                </VBox>
+
+            </children>
+        </HBox>
+    </children>
+</VBox>
