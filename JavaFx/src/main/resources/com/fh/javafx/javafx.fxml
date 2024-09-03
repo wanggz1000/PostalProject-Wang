@@ -8,17 +8,17 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="365.0" prefWidth="468.0" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.fh.javafx.PostController">
+<VBox prefHeight="365.0" prefWidth="468.0" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fh.javafx.PostController">
     <children>
         <Label prefHeight="17.0" prefWidth="103.0" text="Postal Service" />
         <Separator prefHeight="0.0" prefWidth="412.0" />
         <HBox spacing="20">
             <children>
-                <VBox prefHeight="336.0" prefWidth="155.0" spacing="10" HBox.hgrow="ALWAYS">
+                <VBox prefHeight="334.0" prefWidth="179.0" spacing="10" HBox.hgrow="ALWAYS">
                     <children>
                         <TextField fx:id="nameFieldLetter" promptText="Name" />
                         <TextField fx:id="countryField" promptText="Country" />
-                        <Button onAction="#sendLetter" prefHeight="26.0" prefWidth="147.0" style="-fx-background-color: blue; -fx-text-fill: white;" text="Send Letter" />
+                        <Button onAction="#sendLetter" prefHeight="26.0" prefWidth="152.0" style="-fx-background-color: blue; -fx-text-fill: white;" text="Send Letter" />
                         <Separator />
                   <Separator prefHeight="0.0" prefWidth="148.0" />
                         <TextField fx:id="nameFieldPackage" promptText="Name" />
