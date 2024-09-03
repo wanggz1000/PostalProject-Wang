@@ -1,4 +1,4 @@
-# Fuel Station Project Documentation
+# Postal Project Documentation
 
 ## About the project
 
@@ -57,21 +57,6 @@ Throughout the development of this project, our team gained following key lesson
 
 There is significant potential for improvement, particularly in enhancing the modularity and reusability of our components. This will be crucial for future scalability and more frequent use of interfaces, an area we overlooked due to time constraints from concurrent projects each team member was involved with. Additionally, we faced certain limitations imposed by management directives regarding the use of specific technologies like JavaFX and SpringBoot, which didn't always align with the varied skill sets and experiences within our team. Moving forward, we aim to adopt a more flexible approach to technology choices. Despite these challenges, the project was a valuable learning experience that will benefit our future endeavors.
 
-## Unit-Testing Decisions
-
-Here you can see a decision matrix on which components we tested and why we tested them:
-
-| Component                | Reason for Testing                                                                                           |
-|--------------------------|--------------------------------------------------------------------------------------------------------------|
-| Java FX UI               | Not tested due to limited functionality, dependency on user interaction, and focus on backend functionality. |
-| SpringBoot API           | - Tested the `gatherData` method to ensure proper handling of creating a data gathering request              |
-|                          | - Tested the `gatherInvoice` method to ensure proper retrieval of invoices                                   |
-| DataCollectionDispatcher | - Tested the `getDatabase` method to verify the correct retrieval of station data                            |
-| StationDataCollector     | - Tested the `getKWH` method to check the retrieval of kWh data from the queue                               |
-| DataCollectionReceiver   | - Tested the `calculateTotal` method to verify the correct calculation of total kWh                          |
-| PDFGenerator             | - Tested the `getId` method to verify the retrieval of customer ID                                           |
-|                          | - Tested the `getFirstName` method to ensure the correct retrieval of customer's first name                  |
-|                          | - Tested the `getLastName` method to ensure the correct retrieval of customer's last name                    |
 
 ## Tracked Time
 
@@ -79,15 +64,11 @@ In this table you can see the days every team member worked on and the hours we 
 
 | Date       | Activity                                  | Hours Worked p.P. |
 |------------|-------------------------------------------|-------------------|
-| 18.05.2024 | First Set-Up Meeting                      | 9                 |
-| 27.05.2024 | Work on DCD                               | 9                 |
-| 28.05.2024 | DCD error fixed                           | 7                 |
-| 04.06.2024 | All other services                        | 8                 |
-| 06.06.2024 | PDF Generator finished                    | 7                 |
-| 13.06.2024 | Testing, error, restructuring             | 8                 |
-| 17.06.2024 | Final meeting for finishing documentation | 4                 |
-| 18.06.2024 | DCR hotfix and documentation update       | 8                 |
-| **Total**  |                                           | **60**            |
+| 27.08.2024 | Work on DCD                               | 4                 |
+| 28.08.2024 | DCD error fixed                           | 2                 |
+| 29.08.2024 | All other services                        | 5                 |
+| 03.09.2024 | DCR hotfix and documentation update       | 4                 |
+| **Total**  |                                           | **15**            |
 
 
 
