@@ -34,21 +34,25 @@ public class QueryHandler {
     }
 
     public List<DeliveryStatus> fetchAllDeliveries() {
-        return Stream.concat(
-                retrieveDeliveriesByType("letter", "Letter").stream(),
-                retrieveDeliveriesByType("package", "Package").stream()
-        ).collect(Collectors.toList());
+        List<DeliveryStatus> letterDeliveries = retrieveDeliveriesByType("letter", "Letter");
+        List<DeliveryStatus> packageDeliveries = retrieveDeliveriesByType("package", "Package");
+        return Stream.concat(letterDeliveries.stream(), packageDeliveries.stream())
+                .collect(Collectors.toList());
     }
 
     private Long insertRecord(String sqlQuery, Object... params) {
         try (PreparedStatement statement = dbConnection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)) {
-            for (int i = 0; i < params.length; i++) {
-                statement.setObject(i + 1, params[i]);
-            }
+            setParameters(statement, params);
             return executeInsert(statement);
         } catch (SQLException ex) {
             logger.error("Failed to insert record", ex);
-            throw new IllegalStateException("Failed to insert record");
+            throw new IllegalStateException("Failed to insert record", ex);
+        }
+    }
+
+    private void setParameters(PreparedStatement statement, Object... params) throws SQLException {
+        for (int i = 0; i < params.length; i++) {
+            statement.setObject(i + 1, params[i]);
         }
     }
 
@@ -61,7 +65,7 @@ public class QueryHandler {
                 }
             }
         }
-        throw new IllegalStateException("Failed to insert letter/package");
+        throw new IllegalStateException("Failed to retrieve generated key");
     }
 
     private List<DeliveryStatus> retrieveDeliveriesByType(String tableName, String itemType) {
@@ -81,7 +85,7 @@ public class QueryHandler {
             }
         } catch (SQLException ex) {
             logger.error("Failed to retrieve " + itemType + " deliveries", ex);
-            throw new IllegalStateException("Failed to retrieve " + itemType + " deliveries");
+            throw new IllegalStateException("Failed to retrieve " + itemType + " deliveries", ex);
         }
         return deliveryList;
     }
