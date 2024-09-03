@@ -16,45 +16,61 @@ public class MessageConsumer {
     private QueryHandler queryHandler;
 
     public MessageConsumer() throws SQLException {
-        this.connectionFactory = new ConnectionFactory();
-        this.connectionFactory.setHost("localhost");
-        this.connectionFactory.setPort(30003);
+        initializeConnectionFactory();
         this.queryHandler = new QueryHandler();
     }
 
+    private void initializeConnectionFactory() {
+        this.connectionFactory = new ConnectionFactory();
+        this.connectionFactory.setHost("localhost");
+        this.connectionFactory.setPort(30003);
+    }
+
     public void startLetterConsumption() throws IOException, TimeoutException {
-        Connection connection = this.connectionFactory.newConnection();
-        Channel channel = connection.createChannel();
-        channel.queueDeclare(QUEUE_LETTERS, false, false, false, null);
+        try (Connection connection = this.connectionFactory.newConnection();
+             Channel channel = connection.createChannel()) {
 
-        System.out.println(" [*] Awaiting messages from Letters Queue. Press CTRL+C to exit.");
+            declareQueue(channel, QUEUE_LETTERS);
 
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+            System.out.println(" [*] Awaiting messages from Letters Queue. Press CTRL+C to exit.");
+
+            channel.basicConsume(QUEUE_LETTERS, true, createDeliverCallbackForLetter(), this::handleCancellation);
+        }
+    }
+
+    public void startPackageConsumption() throws IOException, TimeoutException {
+        try (Connection connection = this.connectionFactory.newConnection();
+             Channel channel = connection.createChannel()) {
+
+            declareQueue(channel, QUEUE_PACKAGES);
+
+            System.out.println(" [*] Awaiting messages from Packages Queue. Press CTRL+C to exit.");
+
+            channel.basicConsume(QUEUE_PACKAGES, true, createDeliverCallbackForPackage(), this::handleCancellation);
+        }
+    }
+
+    private void declareQueue(Channel channel, String queueName) throws IOException {
+        channel.queueDeclare(queueName, false, false, false, null);
+    }
+
+    private DeliverCallback createDeliverCallbackForLetter() {
+        return (consumerTag, delivery) -> {
             Long letterId = Long.parseLong(new String(delivery.getBody(), StandardCharsets.UTF_8));
             System.out.println("Letter received with ID: " + letterId);
             queryHandler.assessLetter(letterId);
         };
-
-        channel.basicConsume(QUEUE_LETTERS, true, deliverCallback, consumerTag -> {
-            System.out.println("Letter consumption has been cancelled.");
-        });
     }
 
-    public void startPackageConsumption() throws IOException, TimeoutException {
-        Connection connection = this.connectionFactory.newConnection();
-        Channel channel = connection.createChannel();
-        channel.queueDeclare(QUEUE_PACKAGES, false, false, false, null);
-
-        System.out.println(" [*] Awaiting messages from Packages Queue. Press CTRL+C to exit.");
-
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+    private DeliverCallback createDeliverCallbackForPackage() {
+        return (consumerTag, delivery) -> {
             Long packageId = Long.parseLong(new String(delivery.getBody(), StandardCharsets.UTF_8));
             System.out.println("Package received with ID: " + packageId);
             queryHandler.assessPackage(packageId);
         };
+    }
 
-        channel.basicConsume(QUEUE_PACKAGES, true, deliverCallback, consumerTag -> {
-            System.out.println("Package consumption has been cancelled.");
-        });
+    private void handleCancellation(String consumerTag) {
+        System.out.println("Consumption has been cancelled.");
     }
 }

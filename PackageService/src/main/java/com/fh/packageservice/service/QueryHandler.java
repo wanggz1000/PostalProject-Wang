@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory;
 
 public class QueryHandler {
 
-    private Connection dbConnection;
+    private final Connection dbConnection;
     private static final Logger logger = LoggerFactory.getLogger(QueryHandler.class);
     private static final String STATUS_APPROVED = "approved";
     private static final String STATUS_DENIED = "denied";
 
     public QueryHandler() throws SQLException {
-        this.dbConnection = DatabaseConnection.connect(); // Use DatabaseConnection here
+        this.dbConnection = DatabaseConnection.connect();
     }
 
     public void assessLetter(Long letterId) {
@@ -23,14 +23,17 @@ public class QueryHandler {
             preparedStatement.setLong(1, letterId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                resultSet.next();
-                String destinationCountry = resultSet.getString("country");
-                String deliveryStatus = List.of("AT", "CH", "DE").contains(destinationCountry) ? STATUS_APPROVED : STATUS_DENIED;
-                updateDeliveryStatus("letter", letterId, deliveryStatus);
+                if (resultSet.next()) {
+                    String destinationCountry = resultSet.getString("country");
+                    String deliveryStatus = determineLetterStatus(destinationCountry);
+                    updateDeliveryStatus("letter", letterId, deliveryStatus);
+                } else {
+                    throw new IllegalStateException("Letter not found");
+                }
             }
         } catch (SQLException e) {
             logger.error("Letter verification failed", e);
-            throw new IllegalStateException("Letter verification failed");
+            throw new IllegalStateException("Letter verification failed", e);
         }
     }
 
@@ -41,15 +44,26 @@ public class QueryHandler {
             preparedStatement.setLong(1, packageId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                resultSet.next();
-                double packageWeight = resultSet.getDouble("weight");
-                String deliveryStatus = packageWeight < 25 ? STATUS_APPROVED : STATUS_DENIED;
-                updateDeliveryStatus("package", packageId, deliveryStatus);
+                if (resultSet.next()) {
+                    double packageWeight = resultSet.getDouble("weight");
+                    String deliveryStatus = determinePackageStatus(packageWeight);
+                    updateDeliveryStatus("package", packageId, deliveryStatus);
+                } else {
+                    throw new IllegalStateException("Package not found");
+                }
             }
         } catch (SQLException e) {
             logger.error("Package verification failed", e);
-            throw new IllegalStateException("Package verification failed");
+            throw new IllegalStateException("Package verification failed", e);
         }
+    }
+
+    private String determineLetterStatus(String country) {
+        return List.of("AT", "CH", "DE").contains(country) ? STATUS_APPROVED : STATUS_DENIED;
+    }
+
+    private String determinePackageStatus(double weight) {
+        return weight < 25 ? STATUS_APPROVED : STATUS_DENIED;
     }
 
     private void updateDeliveryStatus(String tableName, Long id, String status) {
@@ -62,8 +76,8 @@ public class QueryHandler {
                 throw new IllegalStateException("Status update failed");
             }
         } catch (SQLException e) {
-            logger.error("Failed to update status for package", e);
-            throw new IllegalStateException("Failed to update status for package");
+            logger.error("Failed to update status for " + tableName, e);
+            throw new IllegalStateException("Failed to update status for " + tableName, e);
         }
     }
 }

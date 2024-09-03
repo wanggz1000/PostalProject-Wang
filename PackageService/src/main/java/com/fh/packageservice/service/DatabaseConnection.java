@@ -14,11 +14,10 @@ public class DatabaseConnection {
     private static final String DB_NAME = "postaldb";
 
     public static Connection connect() throws SQLException {
-        return DriverManager.getConnection(buildConnectionString());
+        return DriverManager.getConnection(createConnectionString());
     }
 
-    private static String buildConnectionString() {
-        // jdbc:DB_DRIVER://DB_HOST:DB_PORT/DB_NAME?user=DB_USERNAME&password=DB_PASSWORD
+    private static String createConnectionString() {
         return String.format(
                 "jdbc:%s://%s:%d/%s?user=%s&password=%s",
                 DB_DRIVER,
