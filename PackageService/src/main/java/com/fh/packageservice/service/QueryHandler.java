@@ -58,11 +58,11 @@ public class QueryHandler {
         }
     }
 
-    private String determineLetterStatus(String country) {
+    public String determineLetterStatus(String country) {
         return List.of("AT", "CH", "DE").contains(country) ? STATUS_APPROVED : STATUS_DENIED;
     }
 
-    private String determinePackageStatus(double weight) {
+    public String determinePackageStatus(double weight) {
         return weight < 25 ? STATUS_APPROVED : STATUS_DENIED;
     }
 

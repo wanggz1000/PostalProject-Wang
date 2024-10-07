@@ -27,27 +27,27 @@ public class MessageConsumer {
     }
 
     public void startLetterConsumption() throws IOException, TimeoutException {
-        try (Connection connection = this.connectionFactory.newConnection();
-             Channel channel = connection.createChannel()) {
+        Connection connection = this.connectionFactory.newConnection();
+             Channel channel = connection.createChannel();
 
             declareQueue(channel, QUEUE_LETTERS);
 
             System.out.println(" [*] Awaiting messages from Letters Queue. Press CTRL+C to exit.");
 
             channel.basicConsume(QUEUE_LETTERS, true, createDeliverCallbackForLetter(), this::handleCancellation);
-        }
+
     }
 
     public void startPackageConsumption() throws IOException, TimeoutException {
-        try (Connection connection = this.connectionFactory.newConnection();
-             Channel channel = connection.createChannel()) {
+        Connection connection = this.connectionFactory.newConnection();
+             Channel channel = connection.createChannel();
 
             declareQueue(channel, QUEUE_PACKAGES);
 
             System.out.println(" [*] Awaiting messages from Packages Queue. Press CTRL+C to exit.");
 
             channel.basicConsume(QUEUE_PACKAGES, true, createDeliverCallbackForPackage(), this::handleCancellation);
-        }
+
     }
 
     private void declareQueue(Channel channel, String queueName) throws IOException {
