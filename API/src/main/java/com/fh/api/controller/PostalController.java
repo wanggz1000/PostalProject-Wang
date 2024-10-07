@@ -31,12 +31,7 @@ public class PostalController {
         this.queueSender = new PostalQueueService();  // Initialize queue service
     }
 
-    /**
-     * Handles the submission of a letter.
-     *
-     * @param letter The letter object submitted by the client
-     * @return A response message indicating the status of the submission
-     */
+
     @PostMapping("/letters")
     public String handleLetterSubmission(@RequestBody Letter letter) {
         Long letterId = queryService.insertLetter(letter);  // Insert the letter into the database and get its ID
@@ -50,12 +45,7 @@ public class PostalController {
         }
     }
 
-    /**
-     * Handles the submission of a package.
-     *
-     * @param packet The package object submitted by the client
-     * @return A response message indicating the status of the submission
-     */
+
     @PostMapping("/packages")
     public String handlePackageSubmission(@RequestBody Packet packet) {
         Long packageId = queryService.insertPacket(packet);  // Insert the package into the database and get its ID
@@ -69,11 +59,7 @@ public class PostalController {
         }
     }
 
-    /**
-     * Retrieves the status of all deliveries.
-     *
-     * @return A list of delivery statuses
-     */
+
     @GetMapping("/status")
     public List<DeliveryStatus> retrieveDeliveryStatuses() {
         return queryService.fetchAllDeliveries();  // Fetch and return all delivery statuses from the database
