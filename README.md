@@ -64,13 +64,16 @@ In this table you can see the days every team member worked on and the hours we 
 
 | Date       | Activity                                  | Hours Worked p.P. |
 |------------|-------------------------------------------|-------------------|
-| 27.08.2024 | Work on DCD                               | 4                 |
-| 28.08.2024 | DCD error fixed                           | 2                 |
-| 29.08.2024 | All other services                        | 5                 |
-| 03.09.2024 | DCR hotfix and documentation update       | 4                 |
+| 27.09.2024 | Work on DCD                               | 4                 |
+| 01.10.2024 | DCD error fixed                           | 2                 |
+| 02.10.2024 | All other services                        | 5                 |
+| 03.10.2024 | DCR hotfix and documentation update       | 4                 |
 | **Total**  |                                           | **15**            |
 
 
+## Unit-Test Decisions
+1. Letter Service Test: Test whether the sending country is DE,AT,CH.If it is, then it passes, anyway, it is negative.
+2. Package Service Test: Test whether the weight is below 25kg. If yes,then approved,anyway,denied. 
 
 
 
